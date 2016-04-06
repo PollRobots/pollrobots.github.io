@@ -1,0 +1,116 @@
+body {
+    font-family: Calibri;
+    font-size: 11pt;
+    color: #444;
+    background: #fff;
+}
+a { 
+    text-decoration: none; 
+    color: #448;
+}
+.resume {
+    max-width: 7in;
+    min-width: 4in;
+    margin: 0 auto;
+}
+h1.name {
+    font-size: 24pt;
+    font-family: Georgia;
+    font-weight: normal;
+    color: #448;
+    text-align: center;
+}
+.section {
+    clear: both; 
+    border-top: solid 1px #448;
+    margin-top: 0.5em;
+}
+.section h2 {
+    margin-top: 0.5em;
+    font-size: 14pt;
+    font-weight: normal;
+    font-family: Georgia;
+    text-transform: uppercase;
+    color: #448;
+}
+.statement div {
+    margin: 0.5em 1em 0em 1em;
+    text-align: justify;
+}
+.contact {
+    float: right;
+    margin-left: 1em;
+    min-height: 6em;
+}
+.contect .email::before {
+    content: 'email: ';
+    color: #004;
+}
+.contect .phone::before {
+    content: 'cell: ';
+    color: #004;
+}
+.job {
+    border-top: solid 1px #BBB;
+    margin-top: 0.5em;
+}
+.job:first-of-type {
+    border-top: none;
+    margin-top: 0;
+}
+.job .employer {
+    font-weight: bold;
+    font-size: 12pt;
+    float: left;
+    width: 30%
+}
+.job .date {
+    float: left;
+    width: 70%
+}
+.job .title {
+    clear: both;
+    float: left;
+    width: 30%;
+    font-style: italic;
+}
+.job .technologies {
+    float: left;
+    width: 70%;
+}
+.job .jobExperience {
+    padding: 0 1em;
+}
+.job .experience {
+    margin-top: 0.5em;
+}
+.job .experience .subtitle {
+    font-weight: bold;
+}
+.job ul {
+    margin: 0.5em 0;
+}
+.row {
+    overflow: hidden;
+    clear: both;
+}
+.educationItem  .institution {
+    width: 30%;
+    float: left;
+}
+.educationItem .institution :first-child {
+    font-weight: bold;
+}
+.educationItem .dates {
+    width: 70%;
+    float: left;
+    height: 3em;
+}
+.expando {
+    cursor: pointer;
+    background: #eee;
+    float: left;
+    font-size: 10pt;
+    border-bottom: solid 2px #ddd;
+    margin-bottom: 0.25em;
+}
