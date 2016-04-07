@@ -2,7 +2,9 @@ const Resume = props => (
   <div className='resume'>
     <div className='row'>
       <Contact {...props.contact} />
-      <h1 className='name'>{props.name}</h1>
+      <h1 className='name'>
+        <a href='resume.pdf' target='_blank'>{props.name}</a>
+      </h1>
     </div>
     <Statement name={props.name}statement={props.statement} />
     <Employment jobs={props.jobs} />
