@@ -114,3 +114,23 @@ h1.name {
     border-bottom: solid 2px #ddd;
     margin-bottom: 0.25em;
 }
+.publication .title {
+    font-weight:  bold;
+    font-size: 12pt;
+    width:  100%;
+}
+.publication .publisher {
+    float: left;
+    width: 50%;
+}
+.publication .date {
+    float: left;
+    width: 50%;
+}
+.publication {
+    margin-top: 0.5em;
+    overflow-y: hidden;
+}
+.publication .title a {
+    color: #444;
+}
