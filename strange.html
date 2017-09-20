@@ -5,6 +5,9 @@
         <title>Strange Attractors</title>
         <link rel="stylesheet"
               href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-beta/css/bootstrap.min.css" />
+        <script type="text/javascript" async
+          src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML">
+        </script>
 <style>
 #quad2 {
   margin: 1em 0;
@@ -59,8 +62,12 @@
             -->
             <img src="https://abs.twimg.com/emoji/v2/72x72/1f432.png" alt="Dragon" title="Dragon">
             </p>
+            <p id='tex1'></p>
+            <p id='tex2'></p>
+            <p id='tex3'></p>
         </div>
         <script>
+
 (function() {
     const SIZE = 1200;
 
@@ -108,6 +115,43 @@
         const nextZ = a[20] + a[21] * x2 + a[22] * X + a[23] * xy + a[24] * xz + a[25] * y2 + a[26] * Y + a[27] * yz + a[28] * z2 + a[29] * Z;
 
         return [nextX, nextY, nextZ];
+    }
+
+    function factor(coef, val, first) {
+        if (coef === 0) {
+            return '';
+        } else if (coef < 0) {
+            return ` - ${-coef} ${val}`;
+        } else if (first) {
+            return `${coef} ${val}`;
+        } else {
+            return ` + ${coef} ${val}`;
+        }
+    }
+
+    const texParts = [ 
+        '',
+        'X_n^2', 'X_n', 'X_n Y_n', 'X_n Z_n',
+        'Y_n^2', 'Y_n', 'Y_n Z_n',
+        'Z_n^2', 'Z_n'
+    ]
+
+    function makeTexPart(start, a) {
+        return texParts.map((p, i) => factor(a[i + start], p, i === 0)).join('');
+    }
+
+    function makeTex(a) {
+        const x = `\\( X_{n+1} = ${makeTexPart(0, a)} \\)`;
+        const y = `\\( Y_{n+1} = ${makeTexPart(10, a)} \\)`;
+        const z = `\\( Z_{n+1} = ${makeTexPart(20, a)} \\)`;
+
+        document.getElementById('tex1').innerHTML = x;
+        document.getElementById('tex2').innerHTML = y;
+        document.getElementById('tex3').innerHTML = z;
+
+        if (window.MathJax) {
+            MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
+        }
     }
 
 
@@ -231,6 +275,9 @@
         const ctx = getContext(id);
 
         const [code, a, [minx, maxx, miny, maxy, minz, maxz]] = find2dCode(initial);
+        if (a.length) {
+            makeTex(a);
+        }
         document.getElementById('code2').value = code;
         if (code !== initial) {
             window.location = '#' + code;
