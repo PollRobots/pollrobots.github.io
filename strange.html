@@ -95,6 +95,21 @@
         return accum;
     }
 
+    function evalNext(X, Y, Z, a) {
+        const x2 = X * X;
+        const xy = X * Y;
+        const xz = X * Z;
+        const y2 = Y * Y;
+        const yz = Y * Z;
+        const z2 = Z * Z;
+
+        const nextX = a[0] + a[1] * x2 + a[2] * X + a[3] * xy + a[4] * xz + a[5] * y2 + a[6] * Y + a[7] * yz + a[8] * z2 + a[9] * Z;
+        const nextY = a[10] + a[11] * x2 + a[12] * X + a[13] * xy + a[14] * xz + a[15] * y2 + a[16] * Y + a[17] * yz + a[18] * z2 + a[19] * Z;
+        const nextZ = a[20] + a[21] * x2 + a[22] * X + a[23] * xy + a[24] * xz + a[25] * y2 + a[26] * Y + a[27] * yz + a[28] * z2 + a[29] * Z;
+
+        return [nextX, nextY, nextZ];
+    }
+
 
     function eval2dQuad(code) {
         const a = translateCode(code);
@@ -115,16 +130,7 @@
         let LSum = 0;
 
         for (let i = 0; i < lim; i++) {
-            const x2 = X * X;
-            const xy = X * Y;
-            const xz = X * Z;
-            const y2 = Y * Y;
-            const yz = Y * Z;
-            const z2 = Z * Z;
-
-            const nextX = a[0] + a[1] * x2 + a[2] * X + a[3] * xy + a[4] * xz + a[5] * y2 + a[6] * Y + a[7] * yz + a[8] * z2 + a[9] * Z;
-            const nextY = a[10] + a[11] * x2 + a[12] * X + a[13] * xy + a[14] * xz + a[15] * y2 + a[16] * Y + a[17] * yz + a[18] * z2 + a[19] * Z;
-            const nextZ = a[20] + a[21] * x2 + a[22] * X + a[23] * xy + a[24] * xz + a[25] * y2 + a[26] * Y + a[27] * yz + a[28] * z2 + a[29] * Z;
+            const [nextX, nextY, nextZ] = evalNext(X, Y, Z, a);
 
             const dx = nextX - X;
             const dy = nextY - Y;
@@ -182,17 +188,7 @@
         let Z = 0.5; // Math.random();
 
         for (let i = 0; i < 11000; i++) {
-            const x2 = X * X;
-            const xy = X * Y;
-            const xz = X * Z;
-            const y2 = Y * Y;
-            const yz = Y * Z;
-            const z2 = Z * Z;
-
-            const nextX = a[0] + a[1] * x2 + a[2] * X + a[3] * xy + a[4] * xz + a[5] * y2 + a[6] * Y + a[7] * yz + a[8] * z2 + a[9] * Z;
-            const nextY = a[10] + a[11] * x2 + a[12] * X + a[13] * xy + a[14] * xz + a[15] * y2 + a[16] * Y + a[17] * yz + a[18] * z2 + a[19] * Z;
-            const nextZ = a[20] + a[21] * x2 + a[22] * X + a[23] * xy + a[24] * xz + a[25] * y2 + a[26] * Y + a[27] * yz + a[28] * z2 + a[29] * Z;
-
+            const [nextX, nextY, nextZ] = evalNext(X, Y, Z, a);
             X = nextX;
             Y = nextY;
             Z = nextZ;
@@ -236,6 +232,9 @@
 
         const [code, a, [minx, maxx, miny, maxy, minz, maxz]] = find2dCode(initial);
         document.getElementById('code2').value = code;
+        if (code !== initial) {
+            window.location = '#' + code;
+        }
 
         ctx.clearRect(0, 0, SIZE, SIZE);
 
@@ -258,17 +257,7 @@
         }
 
         for (let i = 0; i < count; i++) {
-            const x2 = X * X;
-            const xy = X * Y;
-            const xz = X * Z;
-            const y2 = Y * Y;
-            const yz = Y * Z;
-            const z2 = Z * Z;
-
-            const nextX = a[0] + a[1] * x2 + a[2] * X + a[3] * xy + a[4] * xz + a[5] * y2 + a[6] * Y + a[7] * yz + a[8] * z2 + a[9] * Z;
-            const nextY = a[10] + a[11] * x2 + a[12] * X + a[13] * xy + a[14] * xz + a[15] * y2 + a[16] * Y + a[17] * yz + a[18] * z2 + a[19] * Z;
-            const nextZ = a[20] + a[21] * x2 + a[22] * X + a[23] * xy + a[24] * xz + a[25] * y2 + a[26] * Y + a[27] * yz + a[28] * z2 + a[29] * Z;
-
+            const [nextX, nextY, nextZ] = evalNext(X, Y, Z, a);
             X = nextX;
             Y = nextY;
             Z = nextZ;
