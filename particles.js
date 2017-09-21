@@ -33,14 +33,14 @@
 
     function createParticleSystem() {
         // The number of particles in a particle system is not easily changed.
-        const particleCount = 100000;
-        
+        const particleCount = 4000;
+
 
         // Particles are just individual vertices in a geometry
         // Create the geometry that will hold all of the vertices
         const particles = new THREE.Geometry();
 
-        for (const [x, y, z] of getParticles(2000)) {
+        for (const [x, y, z] of getParticles(particleCount)) {
             // Create the vertex
             const particle = new THREE.Vector3(x, y, z);
 
@@ -48,15 +48,21 @@
             particles.vertices.push(particle);
         }
 
+        const textureLoader = new THREE.TextureLoader();
+        const map = textureLoader.load('images/snowflake.png');
+
 
         // Create the material that will be used to render each vertex of the geometry
         const particleMaterial = new THREE.PointsMaterial(
             {
-                color: 0xffffff,
                 size: 1,
-                map: THREE.ImageUtils.loadTexture("images/snowflake.png"),
-                blending: THREE.AdditiveBlending,
+                map: map,
+                blending: THREE.CustomBlending,
+                blendSrc: THREE.OneFactor,
+                blendDst: THREE.OneFactor,
+                blendEquation: THREE.MaxEquation,
                 transparent: true,
+                alphaTest: 0.25,
             });
 
         // Create the particle system
@@ -282,7 +288,9 @@
     function getParticles(count) {
         const particles = [];
 
-        const [code, a, [minx, maxx, miny, maxy, minz, maxz]] = find2dCode('');
+        const initial = location.hash && location.hash.length == 31 ? location.hash.substr(1) : '';
+
+        const [code, a, [minx, maxx, miny, maxy, minz, maxz]] = find2dCode(initial);
 
         let X = 0.5;
         let Y = 0.5;

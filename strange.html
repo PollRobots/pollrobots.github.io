@@ -65,6 +65,7 @@
             <p id='tex1'></p>
             <p id='tex2'></p>
             <p id='tex3'></p>
+            <a id='particle' href='#'>View in 3D</a>
         </div>
         <script>
 
@@ -277,6 +278,7 @@
         const [code, a, [minx, maxx, miny, maxy, minz, maxz]] = find2dCode(initial);
         if (a.length) {
             makeTex(a);
+            document.getElementById('particle').href = `particle.html#${code}`;
         }
         document.getElementById('code2').value = code;
         if (code !== initial) {
