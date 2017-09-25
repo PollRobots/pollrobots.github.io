@@ -9,9 +9,40 @@ body {
     background-color: #fff;
     overflow: hidden;
 }
+
+.controls {
+    position: fixed;
+    z-index: 1;
+    right: 0;
+    padding: 2em;
+    margin: 1em;
+    border: 1px solid #888;
+    border-radius: 1em;
+    transition: opacity 2s;
+    opacity: 0;
+    color: #444;
+    background-color: #eee;
+    font-family: sans-serif;
+}
+
+.controls:hover, .controls:focus, .controls:active {
+    opacity: 0.75;
+}
+
+button {
+    padding: 0.5em 1em;
+}
+
 </style>
     </head>
     <body>
+        <div class="controls" aria-haspopup="true" onclick=" ">
+            <p id="code"></p>
+            <p>
+                <button id="search">Search</button>
+                <a id='strange' href='#'>2d view</a>
+            </p>
+        </div>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/87/three.min.js"></script>
         <script src='particles.js'></script>
     </body>

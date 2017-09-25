@@ -10,28 +10,40 @@
     function init() {
         clock = new THREE.Clock(true);
 
-        scene = new THREE.Scene();
         camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 1, 1000);
         camera.position.z = 50;
 
-        const light = new THREE.DirectionalLight( 0xffffff );
-        light.position.set( 1, -1, 1 ).normalize();
-        scene.add(light);
-
-
-        particleSystem = createParticleSystem();
-        scene.add(particleSystem);
+        const initial = location.hash && location.hash.length == 31 ? location.hash.substr(1) : '';
+        createScene(initial);
 
         renderer = new THREE.WebGLRenderer();
         renderer.setSize( window.innerWidth, window.innerHeight );
         document.body.appendChild( renderer.domElement );
 
-        window.addEventListener( 'resize', onWindowResize, false );
+        window.addEventListener('resize', onWindowResize, false );
+        document.getElementById('search')
+            .addEventListener('click', onSearch);
 
         render();
     }
 
-    function createParticleSystem() {
+    function createScene(code='') {
+        scene = new THREE.Scene();
+
+        const light = new THREE.DirectionalLight( 0xffffff );
+        light.position.set( 1, -1, 1 ).normalize();
+        scene.add(light);
+
+        particleSystem = createParticleSystem(code);
+        scene.add(particleSystem);
+    }
+
+    function onSearch() {
+        console.log('Search');
+        createScene();
+    }
+
+    function createParticleSystem(initial='') {
         // The number of particles in a particle system is not easily changed.
         const particleCount = 4000;
 
@@ -40,7 +52,7 @@
         // Create the geometry that will hold all of the vertices
         const particles = new THREE.Geometry();
 
-        for (const [x, y, z] of getParticles(particleCount)) {
+        for (const [x, y, z] of getParticles(initial, particleCount)) {
             // Create the vertex
             const particle = new THREE.Vector3(x, y, z);
 
@@ -92,9 +104,6 @@
         renderer.setSize( window.innerWidth, window.innerHeight );
         render();
     }
-
-    init();
-    animate();
 
 
     function makeCode(len) {
@@ -285,12 +294,20 @@
 
     }
 
-    function getParticles(count) {
+    function getParticles(initial, count) {
         const particles = [];
 
-        const initial = location.hash && location.hash.length == 31 ? location.hash.substr(1) : '';
 
         const [code, a, [minx, maxx, miny, maxy, minz, maxz]] = find2dCode(initial);
+        document.getElementById('code').innerHTML = code;
+        if (!a.length) {
+            return [];
+        }
+        if (code !== initial) {
+            window.location = '#' + code;
+        }
+        document.getElementById('strange').href = '/strange.html#' + code;
+
 
         let X = 0.5;
         let Y = 0.5;
@@ -317,4 +334,6 @@
         return particles;
     }
 
+    init();
+    animate();
 })();
