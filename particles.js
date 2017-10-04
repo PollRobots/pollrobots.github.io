@@ -47,40 +47,43 @@
         // The number of particles in a particle system is not easily changed.
         const particleCount = 4000;
 
-
-        // Particles are just individual vertices in a geometry
-        // Create the geometry that will hold all of the vertices
-        const particles = new THREE.Geometry();
-
+        const material = createMaterial();
+        const group = new THREE.Group();
         for (const [x, y, z] of getParticles(initial, particleCount)) {
-            // Create the vertex
-            const particle = new THREE.Vector3(x, y, z);
-
-            // Add the vertex to the geometry
-            particles.vertices.push(particle);
+            const particle = new THREE.Sprite(material);
+            particle.position.set(x, y, z);
+            particle.scale.x = particle.scale.y = 1/3;
+            group.add(particle);
         }
-
-        const textureLoader = new THREE.TextureLoader();
-        const map = textureLoader.load('images/snowflake.png');
-
-
-        // Create the material that will be used to render each vertex of the geometry
-        const particleMaterial = new THREE.PointsMaterial(
-            {
-                size: 1,
-                map: map,
-                blending: THREE.CustomBlending,
-                blendSrc: THREE.OneFactor,
-                blendDst: THREE.OneFactor,
-                blendEquation: THREE.MaxEquation,
-                transparent: true,
-                alphaTest: 0.25,
-            });
-
-        // Create the particle system
-        return new THREE.Points(particles, particleMaterial);
+        return group;
     }
 
+    function createMaterial() {
+        const canvas = document.createElement('canvas');
+        canvas.width = 16;
+        canvas.height = 16;
+
+        const context = canvas.getContext('2d');
+        const gradient = context.createRadialGradient(canvas.width / 2, canvas.height / 2, 0,
+            canvas.width / 2, canvas.height / 2, canvas.width / 2);
+        // gradient.addColorStop(0, 'rgba(255,255,255,1)');
+        // gradient.addColorStop(0.2, 'rgba(0,255,255,1)');
+        // gradient.addColorStop(0.4, 'rgba(0,0,64,1)');
+        // gradient.addColorStop(1, 'rgba(0, 0, 0, 1)');
+        gradient.addColorStop(0, 'rgba(255,255,255,1)');
+        gradient.addColorStop(0.1, 'rgba(255,255,255,1)');
+        gradient.addColorStop(0.4, 'rgba(64,64,64,1)');
+        gradient.addColorStop(1, 'rgba(0, 0, 0, 1)');
+
+        context.fillStyle = gradient;
+        context.fillRect(0, 0, canvas.width, canvas.height);
+
+        return new THREE.SpriteMaterial({
+            map: new THREE.CanvasTexture(canvas),
+            blending: THREE.AdditiveBlending,
+        });
+
+    }
 
     function animate() {
         deltaTime = clock.getDelta();

@@ -287,16 +287,11 @@
 
         ctx.clearRect(0, 0, SIZE, SIZE);
 
-        let X = 0.5; // Math.random() / 2 + 0.25;
-        let Y = 0.5; // Math.random() / 2 + 0.25;
-        let Z = 0.5; // Math.random() / 2 + 0.25;
-        let r = Math.random();
-        let g = Math.random();
-        let b = Math.random();
 
         const density = parseInt(document.getElementById('density2').value);
 
-        const count = density * 200000;
+        const count = 50000;
+        const limit = density * 200000;
         cscale = 19;
 
         const back = document.getElementById('back2').value;
@@ -305,13 +300,17 @@
             ctx.fillRect(0, 0, SIZE, SIZE);
         }
 
-        for (let i = 0; i < count; i++) {
+        let inner = null;
+
+        inner = (total, X, Y, Z) => {
+            for (let i = 0; i < count && total < limit; i++, total++) {
             const [nextX, nextY, nextZ] = evalNext(X, Y, Z, a);
             X = nextX;
             Y = nextY;
             Z = nextZ;
 
             let h = (360 + 360 * (Z - minz) / (maxz - minz)) % 360;
+            let r, g, b;
 
             if (h < 60) {
                 r = 1;
@@ -339,12 +338,19 @@
                 b = (360 - b) / 60;
             }
 
-            ctx.setPixel(
-                parseInt(0.05 * SIZE) + parseInt(0.9 * SIZE * (X - minx) / (maxx - minx)),
-                parseInt(0.05 * SIZE) + parseInt(0.9 * SIZE * (Y - miny) / (maxy - miny)),
-                `rgba(${parseInt(255 * r)}, ${parseInt(255 * g)}, ${parseInt(255 * b) % 256}, 0.1)`
-            );
-        }
+                ctx.setPixel(
+                    parseInt(0.05 * SIZE) + parseInt(0.9 * SIZE * (X - minx) / (maxx - minx)),
+                    parseInt(0.05 * SIZE) + parseInt(0.9 * SIZE * (Y - miny) / (maxy - miny)),
+                    `rgba(${parseInt(255 * r)}, ${parseInt(255 * g)}, ${parseInt(255 * b) % 256}, 0.1)`
+                );
+            }
+
+            if (total < limit) {
+                requestAnimationFrame(() => inner(total, X, Y, Z));
+            }
+        };
+
+        inner(0, 0.5, 0.5, 0.5);
     }
 
     const defCode = 'CQSEHOFSPNMQUCONTHEOSKFLGIHBGE';
