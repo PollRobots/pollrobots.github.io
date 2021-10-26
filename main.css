@@ -14,7 +14,7 @@ a {
   margin: 0 auto;
 }
 h1.name {
-  font-size: 24pt;
+  font-size: 2.18rem;
   font-family: Georgia;
   font-weight: normal;
   color: #448;
@@ -27,7 +27,7 @@ h1.name {
 }
 .section h2 {
   margin-top: 0.5em;
-  font-size: 14pt;
+  font-size: 1.27rem;
   font-weight: normal;
   font-family: Georgia;
   text-transform: uppercase;
@@ -37,17 +37,25 @@ h1.name {
   margin: 0.5em 1em 0em 1em;
   text-align: justify;
 }
+.contact-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  margin-bottom: 1em;
+}
+.name {
+  grid-area: 1/1/2/3;
+}
 .contact {
-  float: right;
   margin-left: 1em;
   min-height: 6em;
+  grid-area: 1/2/2/3;
 }
-.contect .email::before {
-  content: "email: ";
+.contact .email::before {
+  content: "📧 ";
   color: #004;
 }
-.contect .phone::before {
-  content: "cell: ";
+.contact .phone::before {
+  content: "📱 ";
   color: #004;
 }
 .job {
@@ -60,25 +68,14 @@ h1.name {
 }
 .job .employer {
   font-weight: bold;
-  font-size: 12pt;
-  float: left;
-  width: 30%;
-}
-.job .date {
-  float: left;
-  width: 70%;
+  font-size: 1.09rem;
 }
 .job .title {
-  clear: both;
-  float: left;
-  width: 30%;
   font-style: italic;
 }
-.job .technologies {
-  float: left;
-  width: 70%;
-}
-.job .jobExperience {
+.row.jobExperience div {
+  grid-column-start: 1;
+  grid-column-end: 3;
   padding: 0 1em;
 }
 .job .experience {
@@ -91,48 +88,59 @@ h1.name {
   margin: 0.5em 0;
 }
 .row {
-  overflow: hidden;
-  clear: both;
+  display: grid;
+  grid-template-columns: 3fr 7fr;
 }
+
 .educationItem .institution {
-  width: 30%;
-  float: left;
+  grid-column-start: 1;
+  grid-column-end: 3;
 }
 .educationItem .institution :first-child {
   font-weight: bold;
 }
 .educationItem .dates {
-  width: 70%;
-  float: left;
   height: 3em;
 }
 .expando {
   cursor: pointer;
   background: #eee;
   float: left;
-  font-size: 10pt;
+  font-size: smaller;
   border-bottom: solid 2px #ddd;
   margin-bottom: 0.25em;
 }
 .publication .title {
   font-weight: bold;
-  font-size: 12pt;
-  width: 100%;
-}
-.publication .publisher {
-  float: left;
-  width: 50%;
-}
-.publication .date {
-  float: left;
-  width: 50%;
+  font-size: 1.09rem;
+  grid-column-start: 1;
+  grid-column-end: 3;
 }
 .publication {
   margin-top: 0.5em;
   overflow-y: hidden;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
 }
 .publication .title a {
   color: #444;
+}
+
+@media only screen and (max-device-width: 481px) {
+  body {
+    font-size: 9pt;
+  }
+  .contact {
+    grid-area: 2/2/3/3;
+    min-width: 20em;
+  }
+}
+
+@media only screen and (max-width: 800px) {
+  .contact {
+    grid-area: 2/2/3/3;
+    min-width: 10em;
+  }
 }
 
 
